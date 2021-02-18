@@ -31,14 +31,14 @@ class MainActivity : AppCompatActivity() {
     private fun setUpCameraPermission() {
         val permission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
         if (permission != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_LONG).show()
             makeRequest()
+            Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun makeRequest() {
         ActivityCompat.requestPermissions(this,
-            arrayOf(android.Manifest.permission.RECORD_AUDIO),
+            arrayOf(android.Manifest.permission.CAMERA),
             RECORD_REQUEST_CODE)
     }
 }

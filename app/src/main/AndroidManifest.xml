@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Idvs">
-        <activity android:name=".scannerActivity"></activity>
+        <activity android:name=".showStudent"></activity>
+        <activity android:name=".scannerActivity" />
         <activity
             android:name=".splashActivity"
             android:theme="@style/AppTheme.NoActionBar">
