@@ -26,7 +26,7 @@ class showStudent : AppCompatActivity() {
 
         studentInfo.get().addOnSuccessListener { document ->
             if(document != null) {
-                studentIdtv.text = "DocumentSnapshot data: ${document.data}"
+                studentIdtv.text = document.getString("studentFullName")
                 Log.d(TAG, "DocumentSnapshot data: ${document.data}")
             } else{
                 Toast.makeText(this, "The student doesn't exist", Toast.LENGTH_LONG).show()

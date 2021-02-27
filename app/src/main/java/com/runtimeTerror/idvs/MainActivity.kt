@@ -21,9 +21,15 @@ class MainActivity : AppCompatActivity() {
         setUpCameraPermission()
 
         val scanBtn = findViewById<Button>(R.id.scanId)
+        val mealScan = findViewById<Button>(R.id.mealScan)
 
         scanBtn.setOnClickListener {
             val intent = Intent(this, scannerActivity::class.java)
+            startActivity(intent)
+        }
+
+        mealScan.setOnClickListener {
+            val intent = Intent(this, mealCardTicker::class.java)
             startActivity(intent)
         }
     }

@@ -10,4 +10,12 @@
         android:layout_centerInParent="true"
         android:text="Scan ID"
         android:padding="10dp"/>
+    <Button
+        android:id="@+id/mealScan"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:text="Scan Meal Card"
+        android:padding="10dp"/>
 </RelativeLayout>
