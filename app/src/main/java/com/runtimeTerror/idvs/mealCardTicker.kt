@@ -71,9 +71,9 @@ class mealCardTicker : AppCompatActivity() {
                         studentMealInfo.document("dinner").set(falseValue)
                     }
 
-                    val checkBreakFast = checkTimeRange("1:00", "4:00", currentTime)
+                    val checkBreakFast = checkTimeRange("16:00", "17:00", currentTime)
                     val checkLunch = checkTimeRange("11:30", "13:00", currentTime)
-                    val checkDinner = checkTimeRange("16:30", "18:00", currentTime)
+                    val checkDinner = checkTimeRange("1:30", "4:00", currentTime)
 
                     when {
                         checkBreakFast -> {

@@ -4,15 +4,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey">
+    android:background="@drawable/gradientbackground">
 
     <!-- Don't worry about the id names I have named the id's with reference to the file name for consistency -->
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="100dp"
         android:src="@mipmap/ic_launcher_foreground"
         app:srcCompat="@android:drawable/sym_def_app_icon" />
 
@@ -21,10 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textSize="20dp"
+        android:textSize="30dp"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:layout_below="@id/imageView"
         android:padding="30dp"/>
 
@@ -35,7 +35,7 @@
         android:layout_below="@id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:indeterminateTint="@color/black"/>
+        android:indeterminateTint="@color/white"/>
 
     <TextView
         android:id="@+id/textView1"
