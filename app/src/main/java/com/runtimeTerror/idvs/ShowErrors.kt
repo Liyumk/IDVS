@@ -20,6 +20,9 @@ class ShowErrors : AppCompatActivity() {
         val goBackView = findViewById<TextView>(R.id.goBack)
 
         messageView.text = message
-        
+
+        goBackView.setOnClickListener{
+            finish()
+        }
     }
 }

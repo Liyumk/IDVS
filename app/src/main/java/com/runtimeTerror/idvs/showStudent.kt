@@ -1,5 +1,6 @@
 package com.runtimeTerror.idvs
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -26,11 +27,14 @@ class showStudent : AppCompatActivity() {
 
         val studentInfo = db.collection("students").document("atr-5388-11")
 
+        val msgIntent = Intent(this, ShowErrors::class.java)
         studentInfo.get().addOnSuccessListener { document ->
             if(document != null) {
                 var student = document.getData()
                 if (student != null) {
                     if(student.isEmpty()) {
+                        msgIntent.putExtra("message", "The student doesn't exist")
+                        startActivity(msgIntent)
                         Toast.makeText(this, "The student doesn't exist", Toast.LENGTH_LONG).show()
                         Log.e(TAG, "No such student")
                     }else{
@@ -51,14 +55,21 @@ class showStudent : AppCompatActivity() {
                     }
                 }else{
 
+                    msgIntent.putExtra("message", "The student doesn't exist")
+                    startActivity(msgIntent)
                     Toast.makeText(this, "The student doesn't exist", Toast.LENGTH_LONG).show()
                     Log.e(TAG, "No such student")
                 }
             } else{
+                msgIntent.putExtra("message", "The student doesn't exist")
+                startActivity(msgIntent)
                 Toast.makeText(this, "The student doesn't exist", Toast.LENGTH_LONG).show()
                 Log.e(TAG, "No such student")
             }
         }.addOnFailureListener { exception ->
+
+            msgIntent.putExtra("message", "Failed to fetch the document")
+            startActivity(msgIntent)
             Toast.makeText(this, "Failed to fetch the document", Toast.LENGTH_LONG).show()
             Log.d(TAG, "get failed with ", exception)
         }

@@ -1,5 +1,6 @@
 package com.runtimeTerror.idvs
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -15,7 +16,7 @@ class mealCardTicker : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meal_card_ticker)
 
-//        val intent = intent
+        val intent = intent
 //        val TAG = "Student Info"
         val db = FirebaseFirestore.getInstance()
 //        val scannerStudentId = intent.getStringExtra("studentId")
@@ -32,6 +33,8 @@ class mealCardTicker : AppCompatActivity() {
         //check if the student exist
 
         val studentFromFireStore = db.collection("students").document(scannerStudentId)
+
+        val msgIntent = Intent(this, ShowErrors::class.java)
 
         studentFromFireStore.get().addOnSuccessListener { student ->
             if(student == null) {
