@@ -38,8 +38,8 @@ class mealCardTicker : AppCompatActivity() {
                 Toast.makeText(this, "Student doesn't exist or isn't eligible to get a meal.", Toast.LENGTH_LONG).show()
             }else{
 
-//              outPuts.set("fullName", student.getString("studentFullName").toString())
-//                outPuts.set("studentId", student.getString("studentId").toString())
+                outPuts["fullName"] = student.getString("studentFullName").toString()
+                outPuts["studentId"] = student.getString("studentId").toString()
 
                 val currentCalender = Calendar.getInstance()
 
@@ -56,7 +56,8 @@ class mealCardTicker : AppCompatActivity() {
                 val currentDate = "$currentDay-$currentMonth-$currentYear"
                 val currentTime = "$currentHour:$currentMinute"
 
-                outPuts.set("currentDate", currentDate)
+                outPuts["currentDate"] = currentDate
+
                 var statusMessage = ""
                 //fetch student meal information
                 val studentMealInfo = db.collection("Meals").document(scannerStudentId).collection(currentDate)
@@ -131,8 +132,26 @@ class mealCardTicker : AppCompatActivity() {
                             Toast.makeText(this, "Can't get a meal at this time",  Toast.LENGTH_LONG).show()
                         }
                     }
-                    outPuts.set("status", statusMessage)
 
+                    outPuts["status"] = statusMessage
+
+                    studentMealInfo.document("breakfast").get().addOnSuccessListener { bfast ->
+                            outPuts["breakfast"] = bfast.getString("breakfast").toString()
+                    }.addOnFailureListener{ exception ->
+                        Toast.makeText(this, "Network Error",  Toast.LENGTH_LONG).show()
+                    }
+                    studentMealInfo.document("lunch").get().addOnSuccessListener { lfast ->
+                        outPuts["lunch"] = lfast.getString("breakfast").toString()
+                    }.addOnFailureListener{ exception ->
+                        Toast.makeText(this, "Network Error",  Toast.LENGTH_LONG).show()
+                    }
+                    studentMealInfo.document("dinner").get().addOnSuccessListener { dfast ->
+                        outPuts["dinner"] = dfast.getString("breakfast").toString()
+                    }.addOnFailureListener{ exception ->
+                        Toast.makeText(this, "Network Error",  Toast.LENGTH_LONG).show()
+                    }
+
+                    dateText.text = outPuts.toString()
 
                 }.addOnFailureListener{ exception ->
                     Toast.makeText(this, "you can't get a meal at this time",  Toast.LENGTH_LONG).show()

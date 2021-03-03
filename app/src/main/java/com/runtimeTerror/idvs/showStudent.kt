@@ -6,6 +6,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
+import javax.annotation.meta.When
 
 
 class showStudent : AppCompatActivity() {
@@ -27,11 +28,35 @@ class showStudent : AppCompatActivity() {
 
         studentInfo.get().addOnSuccessListener { document ->
             if(document != null) {
-                    studentIdtv.text = document.getString("studentFullName")
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                var student = document.getData()
+                if (student != null) {
+                    if(student.isEmpty()) {
+                        Toast.makeText(this, "The student doesn't exist", Toast.LENGTH_LONG).show()
+                        Log.e(TAG, "No such student")
+                    }else{
+                        val studentStatus = document.getString("active");
+                        var currentStatus = ""
+                        if(studentStatus == "active") {
+                            currentStatus = "Access Granted"
+                        }else if(studentStatus == "withdrawn") {
+                            currentStatus = "Can't Pass Student Withdrawn"
+                        }else if(studentStatus == "dropout") {
+                            currentStatus = "Can't Pass Student is a Dropout"
+                        }else if(studentStatus == "graduated") {
+                            currentStatus = "Can't Pass Student graduated"
+                        }
+
+                        studentIdtv.text = document.getString("studentFullName")
+
+                    }
+                }else{
+
+                    Toast.makeText(this, "The student doesn't exist", Toast.LENGTH_LONG).show()
+                    Log.e(TAG, "No such student")
+                }
             } else{
                 Toast.makeText(this, "The student doesn't exist", Toast.LENGTH_LONG).show()
-                Log.e(TAG, "No such document")
+                Log.e(TAG, "No such student")
             }
         }.addOnFailureListener { exception ->
             Toast.makeText(this, "Failed to fetch the document", Toast.LENGTH_LONG).show()
