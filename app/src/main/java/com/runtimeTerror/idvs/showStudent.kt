@@ -20,7 +20,14 @@ class showStudent : AppCompatActivity() {
 
         val db = FirebaseFirestore.getInstance()
         val scannerStudentId = intent.getStringExtra("studentId")
-        val studentIdtv = findViewById<TextView>(R.id.studentId)
+
+        val fullName = findViewById<TextView>(R.id.studentName)
+        val studentIdView = findViewById<TextView>(R.id.studentId)
+        val campus = findViewById<TextView>(R.id.campus)
+        val genderView = findViewById<TextView>(R.id.gender)
+        val birthDateView = findViewById<TextView>(R.id.birthdate)
+        val admission = findViewById<TextView>(R.id.education)
+        val goBack = findViewById<TextView>(R.id.goBack)
 
         val studentId = scannerStudentId?.replace("/", "-")
 //        studentIdtv.text = studentId
@@ -50,7 +57,12 @@ class showStudent : AppCompatActivity() {
                             currentStatus = "Can't Pass Student graduated"
                         }
 
-                        studentIdtv.text = document.getString("studentFullName")
+                        fullName.text = document.getString("studentFullName")
+                        studentIdView.text = studentId
+                        genderView.text = document.getString("gender")
+                        admission.text = document.getString("admission")
+                        campus.text = document.getString("campus")
+                        birthDateView.text = document.getString("dateOfBirth")
 
                     }
                 }else{
@@ -74,6 +86,9 @@ class showStudent : AppCompatActivity() {
             Log.d(TAG, "get failed with ", exception)
         }
 
+        goBack.setOnClickListener{
+            finish()
+        }
 
 
     }

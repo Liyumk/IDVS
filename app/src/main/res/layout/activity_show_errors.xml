@@ -15,9 +15,7 @@
         android:layout_marginLeft="50dp"
         android:background="@drawable/goback"
         android:textColor="@color/white"
-        >
-
-    </TextView>
+       />
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
         android:layout_height="300dp"
