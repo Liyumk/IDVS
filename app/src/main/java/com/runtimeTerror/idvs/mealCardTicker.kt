@@ -58,7 +58,7 @@ class mealCardTicker : AppCompatActivity() {
 
                 outPuts["currentDate"] = currentDate
 
-                var statusMessage = ""
+                outPuts["status"] = ""
                 //fetch student meal information
                 val studentMealInfo = db.collection("Meals").document(scannerStudentId).collection(currentDate)
 
@@ -85,13 +85,13 @@ class mealCardTicker : AppCompatActivity() {
                         checkBreakFast -> {
                             val checkBreakFast = studentMealInfo.document("breakfast")
                             checkBreakFast.get().addOnSuccessListener { bfast ->
-                                val bmap = bfast.getData()
+                                val bmap = bfast.data
                                 if(bmap?.get("value") == true) {
-                                    statusMessage = "Student already ate breakfast"
+                                    outPuts["status"] = "Student already ate breakfast"
                                     Toast.makeText(this, "Already Ate", Toast.LENGTH_LONG).show()
                                 }else{
                                     studentMealInfo.document("breakfast").set(trueValue).addOnSuccessListener {
-                                       statusMessage = "Student can get breakfast"
+                                       outPuts["status"] = "Student can get breakfast"
                                         Toast.makeText(this, "Break Fast", Toast.LENGTH_LONG).show()
                                     }
                                 }
@@ -100,13 +100,13 @@ class mealCardTicker : AppCompatActivity() {
                         checkLunch -> {
                             val checkLunch = studentMealInfo.document("lunch")
                             checkLunch.get().addOnSuccessListener { lfast ->
-                                val lmap = lfast.getData()
+                                val lmap = lfast.data
                                 if(lmap?.get("value") == true) {
-                                    statusMessage = "Student already ate lunch"
+                                    outPuts["status"] = "Student already ate lunch"
                                     Toast.makeText(this, "Already Ate", Toast.LENGTH_LONG).show()
                                 }else{
                                     studentMealInfo.document("lunch").set(trueValue).addOnSuccessListener {
-                                        statusMessage = "Student can get breakfast"
+                                        outPuts["status"] = "Student can get breakfast"
                                         Toast.makeText(this, "Break Fast", Toast.LENGTH_LONG).show()
                                     }
                                 }
@@ -115,26 +115,25 @@ class mealCardTicker : AppCompatActivity() {
                         checkDinner -> {
                             val checkDinner = studentMealInfo.document("dinner")
                             checkDinner.get().addOnSuccessListener { dfast ->
-                                val dmap = dfast.getData()
+                                val dmap = dfast.data
                                 if(dmap?.get("value") == true) {
-                                    statusMessage = "Student already ate Dinner"
+                                    outPuts["status"] = "Student already ate Dinner"
                                     Toast.makeText(this, "Already Ate", Toast.LENGTH_LONG).show()
                                 }else{
                                     studentMealInfo.document("dinner").set(trueValue).addOnSuccessListener {
-                                        statusMessage = "Student can get dinner"
+                                        outPuts["status"] = "Student can get dinner"
                                         Toast.makeText(this, "Dinner", Toast.LENGTH_LONG).show()
                                     }
                                 }
                             }
                         }
                         else -> {
-                            statusMessage = "Can't get a meal at this time"
+                            outPuts["status"] = "Can't get a meal at this time"
                             Toast.makeText(this, "Can't get a meal at this time",  Toast.LENGTH_LONG).show()
                         }
                     }
 
-                    outPuts["status"] = statusMessage
-
+                    
                     studentMealInfo.document("breakfast").get().addOnSuccessListener { bfast ->
                             outPuts["breakfast"] = bfast.getString("breakfast").toString()
                     }.addOnFailureListener{ exception ->

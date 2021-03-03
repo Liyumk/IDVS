@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Idvs">
-        <activity android:name=".mealCardTicker"></activity>
+        <activity android:name=".ShowErrors"></activity>
+        <activity android:name=".mealCardTicker" />
         <activity android:name=".mealScanner" />
         <activity android:name=".showStudent" />
         <activity android:name=".scannerActivity" />
