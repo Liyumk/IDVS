@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">idvs</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="woman_seaching">Woman seaching</string>
+    <string name="welcome_mr_x">Welcome Mr.X</string>
+    <string name="click_the_scann_buton_to_continure">Click the scann buton to continure</string>
+    <string name="scann_id">Scann Id</string>
+    <string name="scann_meal_card">Scann meal card</string>
 </resources>
