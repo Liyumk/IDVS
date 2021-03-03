@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="400dp"
+        app:srcCompat="@drawable/login_person"
+        tools:layout_editor_absoluteX="40dp"
+        tools:layout_editor_absoluteY="30dp" />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        app:cardCornerRadius="25dp"
+        android:layout_marginTop="80dp"
+        app:cardElevation="15dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="50dp"
+                android:drawableLeft="@drawable/ic_action_user"
+                android:ems="10"
+                android:layout_centerHorizontal="true"
+                android:inputType="textPersonName"
+                android:text="User"
+                android:textColor="@color/black"
+                />
+
+            <EditText
+                android:id="@+id/Login"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:drawableLeft="@drawable/ic_action_lock"
+                android:ems="10"
+                android:layout_centerHorizontal="true"
+                android:inputType="textPassword"
+                android:text="Password"
+                android:layout_marginTop="110dp"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="200dp"
+                android:background="@drawable/rounded_corner"
+                android:text="Login"
+                android:textColor="@color/white"
+
+                />
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>
