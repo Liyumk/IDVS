@@ -27,6 +27,8 @@ class mealCardTicker : AppCompatActivity() {
 
         val dateText = findViewById<TextView>(R.id.myDate)
 
+        val outPuts = hashMapOf<String, Any>()
+
         //get student information
         val scannerStudentId = "atr-5388-11"
 
@@ -36,8 +38,12 @@ class mealCardTicker : AppCompatActivity() {
 
         studentFromFireStore.get().addOnSuccessListener { student ->
             if(student == null) {
-                Toast.makeText(this, "Student doesn't exist. get out!!!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Student doesn't exist or isn't eligible to get a meal.", Toast.LENGTH_LONG).show()
             }else{
+
+//              outPuts.set("fullName", student.getString("studentFullName").toString())
+//                outPuts.set("studentId", student.getString("studentId").toString())
+
                 val currentCalender = Calendar.getInstance()
 
                 val currentYear = currentCalender.get(Calendar.YEAR)
@@ -53,90 +59,87 @@ class mealCardTicker : AppCompatActivity() {
                 val currentDate = "$currentDay-$currentMonth-$currentYear"
                 val currentTime = "$currentHour:$currentMinute"
 
+                outPuts.set("currentDate", currentDate)
+                var statusMessage = ""
                 //fetch student meal information
                 val studentMealInfo = db.collection("Meals").document(scannerStudentId).collection(currentDate)
 
                 studentMealInfo.get().addOnSuccessListener { meals ->
 
-                    Log.d("Mike", meals.isEmpty().toString())
                     val trueValue = hashMapOf(
                         "value" to true
                     )
                     val falseValue = hashMapOf(
                             "value" to false
                     )
+
                     if(meals.isEmpty()){
                         studentMealInfo.document("breakfast").set(falseValue)
                         studentMealInfo.document("lunch").set(falseValue)
                         studentMealInfo.document("dinner").set(falseValue)
                     }
 
-                    val checkBreakFast = checkTimeRange("16:00", "17:00", currentTime)
+                    val checkBreakFast = checkTimeRange("1:00", "4:00", currentTime)
                     val checkLunch = checkTimeRange("11:30", "13:00", currentTime)
-                    val checkDinner = checkTimeRange("1:30", "4:00", currentTime)
+                    val checkDinner = checkTimeRange("16:30", "14:00", currentTime)
 
                     when {
                         checkBreakFast -> {
-                            studentMealInfo.document("breakfast").set(trueValue)
-                            Toast.makeText(this, "Break Fast", Toast.LENGTH_LONG).show()
+                            val checkBreakFast = studentMealInfo.document("breakfast")
+                            checkBreakFast.get().addOnSuccessListener { bfast ->
+                                val bmap = bfast.getData()
+                                if(bmap?.get("value") == true) {
+                                    statusMessage = "Student already ate breakfast"
+                                    Toast.makeText(this, "Already Ate", Toast.LENGTH_LONG).show()
+                                }else{
+                                    studentMealInfo.document("breakfast").set(trueValue).addOnSuccessListener {
+                                       statusMessage = "Student can get breakfast"
+                                        Toast.makeText(this, "Break Fast", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
                         }
                         checkLunch -> {
-                            studentMealInfo.document("lunch").set(trueValue)
-                            Toast.makeText(this, "Lunch", Toast.LENGTH_LONG).show()
+                            val checkLunch = studentMealInfo.document("lunch")
+                            checkLunch.get().addOnSuccessListener { lfast ->
+                                val lmap = lfast.getData()
+                                if(lmap?.get("value") == true) {
+                                    statusMessage = "Student already ate lunch"
+                                    Toast.makeText(this, "Already Ate", Toast.LENGTH_LONG).show()
+                                }else{
+                                    studentMealInfo.document("lunch").set(trueValue).addOnSuccessListener {
+                                        statusMessage = "Student can get breakfast"
+                                        Toast.makeText(this, "Break Fast", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
                         }
                         checkDinner -> {
-                            studentMealInfo.document("dinner").set(trueValue)
-                            Toast.makeText(this, "Dinner", Toast.LENGTH_LONG).show()
+                            val checkDinner = studentMealInfo.document("dinner")
+                            checkDinner.get().addOnSuccessListener { dfast ->
+                                val dmap = dfast.getData()
+                                if(dmap?.get("value") == true) {
+                                    statusMessage = "Student already ate Dinner"
+                                    Toast.makeText(this, "Already Ate", Toast.LENGTH_LONG).show()
+                                }else{
+                                    studentMealInfo.document("dinner").set(trueValue).addOnSuccessListener {
+                                        statusMessage = "Student can get dinner"
+                                        Toast.makeText(this, "Dinner", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
                         }
                         else -> {
+                            statusMessage = "Can't get a meal at this time"
                             Toast.makeText(this, "Can't get a meal at this time",  Toast.LENGTH_LONG).show()
                         }
                     }
+                    outPuts.set("status", statusMessage)
 
 
-
-//                    if (mealMap != null) {
-//                        if(mealMap.isEmpty()) {
-//                            val foods = hashMapOf(
-//                                    "breakfast" to false,
-//                                    "lunch" to false,
-//                                    "dinner" to false,
-//                            )
-//                            val studentInfo = hashMapOf(
-//                                    currentDate to foods
-//                            )
-//
-//                            //add date if it doesn't exist
-//                            db.collection("Meals").document(scannerStudentId).set(studentInfo)
-//                        }
-//                    }
-//
-
-//
-
-//                    val studentInfo = hashMapOf(
-//                            currentDate to mealMap
-//                    )
-//
-//                    Log.d("Mike: map", mealMap.toString())
-//                    Log.d("Mike: Stored Hash", mealMap.toString())
-//
-//                    if (mealMap != null) {
-//                        db.collection("Meals").document(scannerStudentId).delete().addOnSuccessListener {
-//                            db.collection("Meals").document(scannerStudentId).set(studentInfo)
-//                        }.addOnFailureListener{ exception ->
-//                            Toast.makeText(this, "Error: Can't Delete",  Toast.LENGTH_LONG).show()
-//                        }
-//                    }
-//
-//                    dateText.text = "$currentHour:$currentMinute"
-//
-//                    Toast.makeText(this, "Student exist. get in!!!", Toast.LENGTH_LONG).show()
                 }.addOnFailureListener{ exception ->
                     Toast.makeText(this, "you can't get a meal at this time",  Toast.LENGTH_LONG).show()
                 }
-
-                //student meal fetch error here
 
 
             }
