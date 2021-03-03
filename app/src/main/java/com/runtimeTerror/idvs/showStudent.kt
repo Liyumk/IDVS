@@ -87,7 +87,8 @@ class showStudent : AppCompatActivity() {
         }
 
         goBack.setOnClickListener{
-            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
 
