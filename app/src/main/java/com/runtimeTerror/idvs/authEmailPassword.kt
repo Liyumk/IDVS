@@ -8,7 +8,6 @@ import android.os.Handler
 class authEmailPassword : AppCompatActivity() {
     private lateinit var ath: FirebaseAuth
     val TAG = "EmailPasswordAuth"
-//    val RC_MULTI_FACTOR = 9005
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -67,7 +66,8 @@ class authEmailPassword : AppCompatActivity() {
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(baseContext, "Account creation failed. Try again.",
+                        Toast.makeText(this, "Account creation failed. Try again.",
+                                    //baseContext
                                 Toast.LENGTH_SHORT).show()
                         emailInput.text = ""
                         passwordInput.text = ""
