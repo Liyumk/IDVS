@@ -7,7 +7,10 @@ import android.os.Handler
 
 class authEmailPassword : AppCompatActivity() {
     private lateinit var ath: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
     val TAG = "EmailPasswordAuth"
+    val TAGG = "GoogleActivity"
+    val RC_SIGN_IN = 9001
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -20,12 +23,14 @@ class authEmailPassword : AppCompatActivity() {
         val sUpBtn = findViewById<Button>(R.id.signUpButton)
         val sInBtn = findViewById<Button>(R.id.signInButton)
 
-        sUpBtn.addOnClickEventListener{
+        sUpBtn.setOnClickListener{
             signUp()
         }
-        sInBtn.addOnClickEventListener{
+        sInBtn.setOnClickListener{
             signIn()
         }
+
+        findViewById(R.id.sign_in_button).setOnClickListener(signInG);
 
 //        email field
 //        password
@@ -43,6 +48,11 @@ class authEmailPassword : AppCompatActivity() {
             }
         });
 
+        val gso: GoogleSignInOptions = Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
     }
 
@@ -52,6 +62,11 @@ class authEmailPassword : AppCompatActivity() {
         val currentUser = ath.currentUser
         if(currentUser != null){
             reload();
+        }
+        val account: GoogleSignInAccount = GoogleSignIn.getLastSignedInAccount(this)
+        if (account != null){
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 
@@ -88,7 +103,7 @@ class authEmailPassword : AppCompatActivity() {
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(baseContext, "Either email or passwor is incorrect. Try again.",
+                        Toast.makeText(this, "Either email or passwor is incorrect. Try again.",
                                 Toast.LENGTH_SHORT).show()
                         emailInput.text = ""
                         passwordInput.text = ""
@@ -128,6 +143,66 @@ class authEmailPassword : AppCompatActivity() {
 
         return valid
     }
+
+
+
+//    -----------------------------------
+    private open fun signInG(): Unit {
+        val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                Toast.makeText(this, "Authenication failed. Try again.",
+                        //baseContext
+                        Toast.LENGTH_SHORT).show()
+                emailInput.text = ""
+                passwordInput.text = ""
+            }
+        }
+    }
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Sign in failed. Try again.",
+                                //baseContext
+                                Toast.LENGTH_SHORT).show()
+                        emailInput.text = ""
+                        passwordInput.text = ""
+                    }
+                }
+    }
+
+
+//    private fun signOutG() {
+//        googleSignInClient.signOut().addOnCompleteListener(this) {
+//            updateUI(null)
+//        }
+//    }
+
+//    private fun revokeAccess() {
+//        // Firebase sign out
+//        auth.signOut()
+//
+//        // Google revoke access
+//        googleSignInClient.revokeAccess().addOnCompleteListener(this) {
+//            updateUI(null)
+//        }
+//    }
 
 
 
