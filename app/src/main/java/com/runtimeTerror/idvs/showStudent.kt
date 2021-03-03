@@ -15,6 +15,7 @@ class showStudent : AppCompatActivity() {
 
         val intent = intent
         val TAG = "Student Info"
+
         val db = FirebaseFirestore.getInstance()
         val scannerStudentId = intent.getStringExtra("studentId")
         val studentIdtv = findViewById<TextView>(R.id.studentId)
@@ -26,8 +27,8 @@ class showStudent : AppCompatActivity() {
 
         studentInfo.get().addOnSuccessListener { document ->
             if(document != null) {
-                studentIdtv.text = document.getString("studentFullName")
-                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    studentIdtv.text = document.getString("studentFullName")
+                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
             } else{
                 Toast.makeText(this, "The student doesn't exist", Toast.LENGTH_LONG).show()
                 Log.e(TAG, "No such document")

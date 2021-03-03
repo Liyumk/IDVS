@@ -9,9 +9,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
-//import java.time.LocalDateTime
-//import java.time.LocalDateTime.now
-//import java.time.format.DateTimeFormatter
 
 class mealCardTicker : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +70,7 @@ class mealCardTicker : AppCompatActivity() {
                             "value" to false
                     )
 
-                    if(meals.isEmpty()){
+                    if(meals.isEmpty){
                         studentMealInfo.document("breakfast").set(falseValue)
                         studentMealInfo.document("lunch").set(falseValue)
                         studentMealInfo.document("dinner").set(falseValue)
